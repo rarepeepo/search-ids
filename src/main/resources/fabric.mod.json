@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "search-ids",
+  "version": "${version}",
+  "name": "Search Ids",
+  "description": "Search for items, entities and sounds by id, name or modid",
+  "authors": [
+    "rarepeepo"
+  ],
+  "license": "GPL-3.0-or-later",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "rare.peepo.SearchIdsMod"
+    ]
+  },
+  "depends": {
+    "java": ">=17",
+    "fabricloader": ">=0.15.0",
+    "fabric-api": "*",
+    "minecraft": "1.20.x"
+  }
+}
