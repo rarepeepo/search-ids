@@ -1,0 +1,67 @@
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Simulate release without publishing'
+        type: boolean
+        default: false
+      draft:
+        description: 'Release as unpublished draft'
+        type: boolean
+        default: false
+      publish_github:
+        description: 'Publish on GitHub'
+        type: boolean
+        default: true
+      publish_modrinth:
+        description: 'Publish on Modrinth'
+        type: boolean
+        default: false
+      publish_curseforge:
+        description: 'Publish on CurseForge'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Validate gradle wrapper
+        uses: gradle/actions/wrapper-validation@v5
+
+      - name: Setup JDK
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Make gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Build
+        run: ./gradlew build
+
+      - name: Publish
+        uses: rarepeepo/minecraft-publish@v1
+        with:
+          files: |
+            build/libs/*.jar
+            !*-sources.jar
+          dry-run:              ${{ inputs.dry_run }}
+          draft:                ${{ inputs.draft }}
+          github-publish:       ${{ inputs.publish_github }}
+          github-token:         ${{ secrets.GITHUB_TOKEN }}
+          modrinth-publish:     ${{ inputs.publish_modrinth }}
+          modrinth-token:       ${{ secrets.MODRINTH_TOKEN }}
+          modrinth-id:          ${{ secrets.MODRINTH_ID }}
+          curseforge-publish:   ${{ inputs.publish_curseforge }}
+          curseforge-token:     ${{ secrets.CURSEFORGE_TOKEN }}
+          curseforge-id:        ${{ secrets.CURSEFORGE_ID }}

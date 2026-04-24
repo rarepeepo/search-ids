@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "searchids",
+  "version": "${version}",
+  "name": "Search Ids",
+  "description": "Search for items, entities and sounds by id, name or modid",
+  "authors": [
+    "rarepeepo"
+  ],
+  "license": "GPL-3.0-or-later",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "searchids.SearchIds"
+    ]
+  },
+  "mixins": [
+    "searchids.mixins.json"
+  ],
+  "custom": {
+    "modrinth_id": "",
+    "curseforge_id": ""
+  },
+  "depends": {
+    "java": ">=17",
+    "fabric-api": "*",
+    "minecraft": "~1.20.1"
+  }
+}
